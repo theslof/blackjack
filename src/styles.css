@@ -1,0 +1,120 @@
+:root {
+  --color-background: #1d7800;
+  --color-text: white;
+  --font: Arial, sans-serif;
+  --font-size: 16px;
+  --padding: 12px;
+  --margin: 12px;
+  --margin-wide: 24px;
+  --border-radius: 8px;
+  --border-radius-small: 4px;
+  --border-radius-large: 12px;
+  --board-size-max: 900px;
+
+  --color-button: darkgreen;
+  --color-button-text: darkgoldenrod;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color: var(--color-text, white);
+  background: var(--color-background, #1d7800);
+  font-family: var(--font, Arial, sans-serif);
+  font-size: var(--font-size, 16px);
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+#board {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: var(--board-size-max, 900px);
+  margin: auto;
+  padding-bottom: 32px;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+#play-area {
+  width: 100%;
+  min-height: 300px;
+  border: solid 1px var(--color-text, white);
+  border-radius: var(--border-radius-large, 12px);
+  padding: var(--padding, 12px);
+  margin-bottom: var(--margin-wide, 24px);
+}
+
+#message-area {
+  margin-bottom: var(--margin-wide);
+  padding: var(--padding);
+  font-size: 2rem;
+}
+
+.divider {
+  flex-grow: 1;
+}
+
+.buttons {
+  display: flex;
+}
+
+.button {
+  min-width: 128px;
+  font-size: 2rem;
+  text-align: center;
+  display: inline-block;
+  user-select: none;
+  border: solid 1px var(--color-button-text, darkgoldenrod);
+  border-radius: var(--border-radius, 8px);
+  background: var(--color-button, darkgreen);
+  padding: var(--padding, 12px);
+  cursor: pointer;
+  color: var(--color-button-text, darkgoldenrod);
+}
+
+.button:not(:last-child) {
+  margin-right: var(--margin-wide, 24px);
+}
+
+.hidden {
+  display: none;
+}
+
+.card {
+  min-width: 7rem;
+  min-height: 10rem;
+  font-size: 3rem;
+  margin: var(--margin);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  border: solid 1px var(--color-button-text);
+  border-radius: var(--border-radius, 8px);
+  background: var(--color-text, white);
+  color: black;
+}
+
+.card.spades,
+.card.clubs
+{
+  color: black;
+}
+
+.card.hearts,
+.card.diamonds
+{
+  color: red;
+}
