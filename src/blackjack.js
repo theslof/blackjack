@@ -125,6 +125,7 @@ buttonStand.addEventListener('click', onStand)
  */
 function getSuitFromCard(card) {
 }
+// Hint: Use card.suit and if/else or switch/case
 
 /**
  * Return a string that only contains the card value text: A, 2-10, J, Q, K
@@ -133,6 +134,8 @@ function getSuitFromCard(card) {
  */
 function getValueFromCard(card) {
 }
+// Hint: Use card.value and if/else or switch/case. Remember that 1 is an Ace, 11-13 is a face card (J, Q, K),
+// and every other value is unchanged.
 
 /**
  * Return a string that is humanly readable for a card, using the format "5♣", "Q♥", "10♦" and "A♠"
@@ -141,6 +144,7 @@ function getValueFromCard(card) {
  */
 function cardToString(card) {
 }
+// Hint: Use the two previous functions to get the string representations for value and suit.
 
 /**
  * Create a new deck containing one copy of each card, total of 52 cards
@@ -148,6 +152,7 @@ function cardToString(card) {
  */
 function generateDeck() {
 }
+// Hint: Use two for-loops to generate 13 cards for each suit.
 
 /**
  * Shuffles the cards in a deck
@@ -155,6 +160,7 @@ function generateDeck() {
  */
 function shuffleDeck(deck) {
 }
+// Hint: You can't change the deck content by using 'card = randomisedDeck', you need to switch the elements' position.
 
 /**
  * If the deck is empty, generate and shuffle a new deck.
@@ -164,6 +170,7 @@ function shuffleDeck(deck) {
  */
 function takeCard(deck) {
 }
+// Hint: Use the previous two functions to generate and shuffle a new deck, remember to save it in gameData.deck
 
 /**
  * Count the value of the whole hand. An Ace(1) can be worth either 1 or 11, depending on what gives the highest total value for the hand without going Bust.
@@ -172,6 +179,7 @@ function takeCard(deck) {
  */
 function countHand(hand) {
 }
+// Hint: Count the aces as 11, then remove 10 for each ace as long as the total is over 21
 
 /**
  * Check if the hand has gone Bust
@@ -180,13 +188,16 @@ function countHand(hand) {
  */
 function isBust(hand) {
 }
+// Hint: Use the previous function to get the total value of the hand
 
 /* ******************** *
  *  Gameplay functions  *
  * ******************** *
 
-   The following functions are used to control the flow of gameplay. Due to limitations in my test framework and the
-   various ways of solving each step it's very difficult to test that these are correctly implemented.
+   The following functions are used to control the flow of gameplay.
+
+   Since the tests use the setMessage* functions to verify game flow changing them will break the tests, so please do
+   not modify them if you still intend to run the tests. They should be used in the later functions, though!
  */
 
 /**
@@ -195,6 +206,7 @@ function isBust(hand) {
 function setMessageDeal() {
   messageArea.innerText = 'Press "Deal" to deal a new hand'
 }
+// Hint: You do not need to modify this function.
 
 /**
  * Set the text inside the message area to 'Press "Hit" to deal a new card, or "Stand" to stop'
@@ -202,6 +214,7 @@ function setMessageDeal() {
 function setMessageHitOrStand() {
   messageArea.innerText = 'Press "Hit" to deal a new card, or "Stand" to stop'
 }
+// Hint: You do not need to modify this function.
 
 /**
  * Set the text inside the message area to 'You went bust! Total hand value was [value of hand]'
@@ -209,6 +222,7 @@ function setMessageHitOrStand() {
 function setMessageBust() {
   messageArea.innerText = `You went bust! Total hand was ${countHand(gameData.playerHand)}`
 }
+// Hint: You do not need to modify this function.
 
 /**
  * Set the text inside the message area to 'Blackjack! 🎉'
@@ -216,6 +230,7 @@ function setMessageBust() {
 function setMessage21() {
   messageArea.innerText = 'Blackjack! 🎉'
 }
+// Hint: You do not need to modify this function.
 
 /**
  * Set the text inside the message area to 'You stopped! Total hand value is [value of hand]'
@@ -223,6 +238,7 @@ function setMessage21() {
 function setMessageStand() {
   messageArea.innerText = `You stopped! Total hand value is ${countHand(gameData.playerHand)}`
 }
+// Hint: You do not need to modify this function.
 
 /**
  * Create and return a new card element, based on the suit and value of the card. <div class="card hearts">7♣</div>
@@ -231,12 +247,7 @@ function setMessageStand() {
  */
 function createCardElement(card) {
 }
-
-/**
- * Clear the play area
- */
-function clearPlayArea() {
-}
+// Hint: Use the document.createElement-function
 
 /**
  * Add a card to the play area
@@ -244,6 +255,14 @@ function clearPlayArea() {
  */
 function addCardToPlayArea(card) {
 }
+// Hint: Use the previous function to create the card element
+
+/**
+ * Clear the play area
+ */
+function clearPlayArea() {
+}
+// Hint: All cards are childNodes of the play area element
 
 /**
  * Show button by removing the 'hidden' class
@@ -251,6 +270,7 @@ function addCardToPlayArea(card) {
  */
 function showButton(button) {
 }
+// Hint: All elements have a classList
 
 /**
  * Hide button by adding the 'hidden' class
@@ -258,47 +278,55 @@ function showButton(button) {
  */
 function hideButton(button) {
 }
-
-/**
- * Check if the player has gone bust. If they have, stop the game and show the bust message
- */
-function checkForBust() {
-}
-
-/**
- * Check if the player got 21. If they have, stop the game and show the celebration message
- */
-function checkFor21() {
-}
+// Hint: Same as the previous, but opposite
 
 /**
  * Reset game board:
- * Empty play area
- * Empty player hand
- * Display "Deal" message
+ * Clear play area, empty player hand and display "Deal" message. Only the Deal button should be visible.
  */
 function onReset() {
 }
+// Hint: Use several previously defined functions
 
 /**
- * Deal a card to the player and then check for Blackjack or Bust
+ * Check if the player has gone bust. If they have, stop the game and show the bust message, only show Reset button.
+ */
+function checkForBust() {
+}
+// Hint: Re-use the count function
+
+/**
+ * Check if the player got 21. If they have, stop the game and show the celebration message, only show the Reset button.
+ */
+function checkFor21() {
+}
+// Hint: Similar to Bust
+
+/**
+ * Deal a card to the player. Display the hitOrStand message, only show the Hit and Stand buttons.
+ * Check for 21 or Bust
  */
 function onHit() {
 }
+// Hint: Use the takeCard function and add the card to gameData.playerHand. Check for 21 and Bust at the very end
 
 /**
- * Deal two cards to the player
+ * Deal two cards to the player, display the hitOrStand message, only show the Hit and Stand buttons.
+ * Check for 21 or Bust
  */
 function onDeal() {
 }
+// Hint: onDeal is identical to onHit, but you draw one more card at the start
 
 /**
- * Stop playing and display the stand message
+ * Stop playing and display the stand message. Only show the reset button.
  */
 function onStand() {
 }
 
-// Here we simply export all of our functions so that they are available for testing.
+// Here we simply export all of our functions so that they are available for testing. If you have filled in all
+// functions so far correctly you should have a playable, although very basic, Blackjack game.
+
 module.exports = {
   getSuitFromCard,
   getValueFromCard,
