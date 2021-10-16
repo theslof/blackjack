@@ -127,11 +127,17 @@ describe('Blackjack', function () {
     })
 
     describe('takeCard', function () {
+      it('should generate a new deck if deck is empty', function () {
+        blackjack.gameData.deck = []
+        blackjack.takeCard(blackjack.gameData.deck)
+        assert.equal(blackjack.gameData.deck.length, 51, 'Deck has the incorrect number of cards')
+      })
+
       it('should remove and return the top card of the deck', function () {
-        const deck = getDeck()
-        const last = deck[deck.length - 1]
-        const card = blackjack.takeCard(deck)
-        assert(deck.length === 51, 'Deck has the incorrect number of cards')
+        blackjack.gameData.deck = getDeck().slice(0, 10)
+        const last = blackjack.gameData.deck[9]
+        const card = blackjack.takeCard(blackjack.gameData.deck)
+        assert.equal(blackjack.gameData.deck.length, 9, 'Deck has the incorrect number of cards')
         assert(card === last, 'Didn\'t remove the last card of the deck')
       })
     })
