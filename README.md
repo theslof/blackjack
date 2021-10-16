@@ -31,3 +31,19 @@ Just like the previous command, a web server will start. Any changes made to fil
 npm run test
 ```
 Verify that your code is working as expected by using the included tests.
+
+## Solution
+If you want to check my solution for each function (there are many ways to solve each problem), or just run the game to see it in action, check out the branch named `solution`.
+
+IMPORTANT! If you have made changes to the code you need to either commit them first, or you will run into issues:
+```
+git commit -a -m "My work in progress"
+```
+
+```
+git checkout solution
+```
+To return to your work in progress you need to check out the `master` branch:
+```
+git checkout master
+```
