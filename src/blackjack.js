@@ -124,6 +124,16 @@ buttonStand.addEventListener('click', onStand)
  * @return {string}
  */
 function getSuitFromCard(card) {
+  switch (card.suit) {
+    case 'SPADES':
+      return '♠'
+    case 'HEARTS':
+      return '♥'
+    case 'DIAMONDS':
+      return '♦'
+    case 'CLUBS':
+      return '♣'
+  }
 }
 // Hint: Use card.suit and if/else or switch/case
 
@@ -133,6 +143,18 @@ function getSuitFromCard(card) {
  * @return {string}
  */
 function getValueFromCard(card) {
+  switch (card.value) {
+    case 1:
+      return 'A'
+    case 11:
+      return 'J'
+    case 12:
+      return 'Q'
+    case 13:
+      return 'K'
+    default:
+      return card.value.toString()
+  }
 }
 // Hint: Use card.value and if/else or switch/case. Remember that 1 is an Ace, 11-13 is a face card (J, Q, K),
 // and every other value is unchanged.
@@ -143,6 +165,7 @@ function getValueFromCard(card) {
  * @return {string}
  */
 function cardToString(card) {
+  return getValueFromCard(card) + getSuitFromCard(card)
 }
 // Hint: Use the two previous functions to get the string representations for value and suit.
 
@@ -151,6 +174,19 @@ function cardToString(card) {
  * @return {Deck}
  */
 function generateDeck() {
+  const deck = []
+  let suits = [
+    'HEARTS',
+    'CLUBS',
+    'SPADES',
+    'DIAMONDS',
+  ]
+  suits.forEach(suit => {
+    for (let value = 1; value < 14; value++) {
+      deck.push({suit, value})
+    }
+  })
+  return deck
 }
 // Hint: Use two for-loops to generate 13 cards for each suit.
 
@@ -159,6 +195,11 @@ function generateDeck() {
  * @param {Deck} deck
  */
 function shuffleDeck(deck) {
+  const copy = [...deck]
+
+  deck.forEach((_, index) => {
+    deck[index] = copy.splice(Math.floor(Math.random() * copy.length), 1)[0]
+  })
 }
 // Hint: You can't change the deck content by using 'card = randomisedDeck', you need to switch the elements' position.
 
@@ -169,6 +210,11 @@ function shuffleDeck(deck) {
  * @return {Card}
  */
 function takeCard(deck) {
+  if (deck.length === 0) {
+    deck.push(...generateDeck())
+    shuffleDeck(deck)
+  }
+  return deck.pop()
 }
 // Hint: Use the previous two functions to generate and shuffle a new deck, remember to save it in gameData.deck
 
@@ -178,6 +224,26 @@ function takeCard(deck) {
  * @return {number}
  */
 function countHand(hand) {
+  let sum = 0
+  let aces = 0
+
+  hand.forEach(card => {
+    if (card.value === 1) {
+      sum += 11
+      aces++
+    } else if (card.value > 10) {
+      sum += 10
+    } else {
+      sum += card.value
+    }
+  })
+
+  while(sum > 21 && aces > 0) {
+    sum -= 10
+    aces--
+  }
+
+  return sum
 }
 // Hint: Count the aces as 11, then remove 10 for each ace as long as the total is over 21
 
@@ -187,6 +253,7 @@ function countHand(hand) {
  * @return {boolean}
  */
 function isBust(hand) {
+  return countHand(hand) > 21
 }
 // Hint: Use the previous function to get the total value of the hand
 
@@ -246,6 +313,10 @@ function setMessageStand() {
  * @return {HTMLDivElement}
  */
 function createCardElement(card) {
+  const cardEl = document.createElement('div')
+  cardEl.innerText = cardToString(card)
+  cardEl.classList.add('card', card.suit.toLowerCase())
+  return cardEl
 }
 // Hint: Use the document.createElement-function
 
@@ -254,6 +325,7 @@ function createCardElement(card) {
  * @param {Card} card
  */
 function addCardToPlayArea(card) {
+  playArea.appendChild(createCardElement(card))
 }
 // Hint: Use the previous function to create the card element
 
@@ -261,6 +333,7 @@ function addCardToPlayArea(card) {
  * Clear the play area
  */
 function clearPlayArea() {
+  Array.from(playArea.childNodes).forEach(card => card.remove())
 }
 // Hint: All cards are childNodes of the play area element
 
@@ -269,6 +342,7 @@ function clearPlayArea() {
  * @param {HTMLElement} button
  */
 function showButton(button) {
+  button.classList.remove('hidden')
 }
 // Hint: All elements have a classList
 
@@ -277,6 +351,7 @@ function showButton(button) {
  * @param {HTMLElement} button
  */
 function hideButton(button) {
+  button.classList.add('hidden')
 }
 // Hint: Same as the previous, but opposite
 
@@ -285,6 +360,13 @@ function hideButton(button) {
  * Clear play area, empty player hand and display "Deal" message. Only the Deal button should be visible.
  */
 function onReset() {
+  hideButton(buttonReset)
+  hideButton(buttonHit)
+  hideButton(buttonStand)
+  showButton(buttonDeal)
+  clearPlayArea()
+  gameData.playerHand = []
+  setMessageDeal()
 }
 // Hint: Use several previously defined functions
 
@@ -292,6 +374,12 @@ function onReset() {
  * Check if the player has gone bust. If they have, stop the game and show the bust message, only show Reset button.
  */
 function checkForBust() {
+  if (isBust(gameData.playerHand)) {
+    hideButton(buttonHit)
+    hideButton(buttonStand)
+    showButton(buttonReset)
+    setMessageBust()
+  }
 }
 // Hint: Re-use the count function
 
@@ -299,6 +387,12 @@ function checkForBust() {
  * Check if the player got 21. If they have, stop the game and show the celebration message, only show the Reset button.
  */
 function checkFor21() {
+  if (countHand(gameData.playerHand) === 21) {
+    hideButton(buttonHit)
+    hideButton(buttonStand)
+    showButton(buttonReset)
+    setMessage21()
+  }
 }
 // Hint: Similar to Bust
 
@@ -307,6 +401,15 @@ function checkFor21() {
  * Check for 21 or Bust
  */
 function onHit() {
+  showButton(buttonHit)
+  showButton(buttonStand)
+  hideButton(buttonDeal)
+  setMessageHitOrStand()
+  const card = takeCard(gameData.deck)
+  gameData.playerHand.push(card)
+  addCardToPlayArea(card)
+  checkFor21()
+  checkForBust()
 }
 // Hint: Use the takeCard function and add the card to gameData.playerHand. Check for 21 and Bust at the very end
 
@@ -315,6 +418,10 @@ function onHit() {
  * Check for 21 or Bust
  */
 function onDeal() {
+  const card = takeCard(gameData.deck)
+  gameData.playerHand.push(card)
+  addCardToPlayArea(card)
+  onHit()
 }
 // Hint: onDeal is identical to onHit, but you draw one more card at the start
 
@@ -322,6 +429,10 @@ function onDeal() {
  * Stop playing and display the stand message. Only show the reset button.
  */
 function onStand() {
+  hideButton(buttonHit)
+  hideButton(buttonStand)
+  showButton(buttonReset)
+  setMessageStand()
 }
 
 // Here we simply export all of our functions so that they are available for testing. If you have filled in all
