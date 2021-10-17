@@ -56,7 +56,7 @@ h1 {
   margin-bottom: var(--margin-wide, 24px);
 }
 
-#message-area {
+#message-area, .score-area {
   margin-bottom: var(--margin-wide);
   padding: var(--padding);
   font-size: 2rem;
@@ -68,6 +68,7 @@ h1 {
 
 .buttons {
   display: flex;
+  margin-bottom: var(--margin-wide);
 }
 
 .button {
@@ -93,9 +94,7 @@ h1 {
 }
 
 .card {
-  min-width: 7rem;
-  min-height: 10rem;
-  font-size: 3rem;
+  font-size: 10rem;
   margin: var(--margin);
   display: inline-flex;
   justify-content: center;
@@ -105,6 +104,8 @@ h1 {
   border-radius: var(--border-radius, 8px);
   background: var(--color-text, white);
   color: black;
+  line-height: 8rem;
+  padding-bottom: 1.4rem;
 }
 
 .card.spades,
