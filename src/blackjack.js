@@ -195,11 +195,30 @@ function generateDeck() {
  * @param {Deck} deck
  */
 function shuffleDeck(deck) {
+  // We need to change the original deck, not just replace 'deck' completely.
+  // First we move all cards over from the deck to a temporary deck:
+  const copy = deck.splice(0, deck.length)
+  // deck is now empty, all the cards are in copy
+
+  // Now we take a random card from the copy and place it back into the original deck.
+  // We run the loop while copy still contains cards
+  while(copy.length) {
+    // Select a random card position from the remaining cards in copy
+    const randomIndex = Math.floor(Math.random() * copy.length)
+    // Remove that card from copy, splice returns it inside an array
+    const temp = copy.splice(randomIndex, 1)
+    // Take the card out of the array and add it to the original deck
+    deck.push(temp[0])
+  }
+
+  /*
+  // Another method
   const copy = [...deck]
 
   deck.forEach((_, index) => {
     deck[index] = copy.splice(Math.floor(Math.random() * copy.length), 1)[0]
   })
+   */
 }
 // Hint: You can't change the deck content by using 'card = randomisedDeck', you need to switch the elements' position.
 
